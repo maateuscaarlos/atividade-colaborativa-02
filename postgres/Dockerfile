@@ -1,0 +1,6 @@
+FROM postgres
+ENV POSTGRES_DB loja
+ENV POSTGRES_USER postgres
+ENV POSTGRES_PASSWORD postgres
+
+

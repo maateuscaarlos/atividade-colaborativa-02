@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+<h:body>
+    <h:form>
+        <h:selectOneMenu id ="idProduto" value="#{carrinhoController.idProduto}" >
+            <f:selectItems value="#{produtoController.produtos}" var="produto" itemLabel="#{produto.descricao}" itemValue="#{produto.id}"/>
+        </h:selectOneMenu>
+        <button
+                jsf:action="${carrinhoController.novo()}">
+            Adicionar
+        </button>
+
+    </h:form>
+
+    <h:form>
+        <h:dataTable var="item" value="#{carrinhoController.todosOsProdutos()}">
+            <h:column> #{item.produto} </h:column>
+            <h:column> quantidade #{item.quantidade} </h:column>
+            <h:column> R$
+                <h:outputText value="#{item.produto.valor} ">
+                    <f:convertNumber currencyCode="R$" type="currency" minFractionDigits="2"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <h:commandButton value="-" action="#{carrinhoController.remover(item.produto)}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">Valor</f:facet>
+                <h:outputText value="#{item.subtotal} ">
+                    <f:convertNumber currencyCode="R$" type="currency" minFractionDigits="2"/>
+                </h:outputText>
+            </h:column>
+        </h:dataTable>
+        <button
+                jsf:action="${carrinhoController.checkout(clienteController.cliente)}">
+            Finalizar
+        </button>
+    </h:form>
+    <a href="http://localhost:8081/loja/api/produtos/">API - Listar produtos</a>
+    <a href="http://localhost:8081/loja/api/produtos/coi">API - Listar por Descrição</a>
+</h:body>
+</html>
